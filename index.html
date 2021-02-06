@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>signaling server test</title>
+    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+    <style>
+      body {
+            background-color: lightblue;
+      }
+      #container {
+                  display: flex;                  /* establish flex container */
+                  flex-direction: row;            /* default value; can be omitted */
+                  flex-wrap: nowrap;              /* default value; can be omitted */
+                  justify-content: space-evenly; /* switched from default (flex-start, see below) */
+                  background-color: lightyellow;
+      }
+      #container > div {
+                  width: 640px;
+                  height: 480px;
+      }
+     .container2 {
+                  padding: 10px 0;
+                  background-color: lightyellow;
+                  text-align: center;
+     }
+     @media (max-width: 1300px) {
+                  #container {
+                                    flex-direction: column;
+                                    background-color: lightblue;
+
+                                  }
+    }
+    @media (max-width: 1300px) {
+                  .container2 {
+                                    flex-direction: column;
+                                    background-color: lightblue;
+
+                                  }
+    }
+
+    </style>
+</head>
+<body>
+<div id="container">
+<div class="left">
+    <video
+    id="remoteStream"
+    class="video-js"
+    autoplay playsinline
+    controls
+    preload="auto"
+    width="640"
+    height="480"
+    data-setup="{}"
+  >
+
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank"
+        >supports HTML5 video</a
+      >
+    </p>
+  </video>
+</div>
+   <div class="right">
+	<video
+    id="localStream"
+    class="video-js"
+    autoplay playsinline
+    controls
+    muted
+    preload="auto"
+    width="640"
+    height="480"
+    data-setup="{}"
+  >
+
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank"
+        >supports HTML5 video</a
+      >
+    </p>
+  </video>
+   </div>
+</div>
+<hr>
+  <div class="container2">
+
+    <div class="select">
+        <label for="audioSource">Audio input source: </label><select id="audioSource"></select>
+    </div>
+
+    <div class="select">
+        <label for="audioOutput">Audio output destination: </label><select id="audioOutput"></select>
+    </div>
+
+    <div class="select">
+        <label for="videoSource">Video source: </label><select id="videoSource"></select>
+    </div>
+
+    <button id="callSIG" style="background-color: #4CAF50;">Call</button>
+    <button id="getID" style="background-color: #008CBA;">Socket ID</button>
+    <button id="getSDP" style="background-color: #008CBA;">GET SDP info</button>
+</div>
+
+  <script var src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
+
+
+    <script>
+         document.getElementById("getID").addEventListener("click", showInfo);
+         function showInfo(){
+         alert("your id:"+socket.id);
+         }
+         document.getElementById("getSDP").addEventListener("click", showSDP);
+         function showSDP(){
+         alert("Remote Description: "+pc.remoteDescription.sdp);
+         }
+
+
+    </script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="static/socket.io.js"></script>
+    <script src="static/main.js"></script>
+    <script>document.getElementById("callSIG").addEventListener("click", getLocalStream);</script>
+</body>
+</html>
